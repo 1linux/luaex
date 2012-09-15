@@ -20,10 +20,15 @@ assert(os.dirent "_luaex_test".type == 'directory')
 assert(type(os.dirent "_luaex_test".size) == 'number')
 os.remove "_luaex_test"
 assert(not os.dirent "_luaex_test")
-local proc = os.spawn{'echo', '123'}
-assert(proc:wait() == 0)
-local proc = os.spawn{'program-that-does-not-exist-123', '123'}
-assert(proc:wait() ~= 0)
+if os.getenv('OS'):match('^Windows.*') then
+  local proc = os.spawn{'notepad.exe'}
+  os.sleep(1)
+  proc:kill()
+  assert(proc:wait() == 0)
+else
+  local proc = os.spawn{'program-that-does-not-exist-123', '123'}
+   print(proc:wait() ~= 0)
+end
 local rd, wr = assert(io.pipe())
 local proc = os.spawn{'echo', '123', stdout=wr}
 wr:close()
