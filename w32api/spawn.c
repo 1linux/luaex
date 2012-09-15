@@ -210,3 +210,17 @@ int process_tostring(lua_State *L)
       p->status==-1 ? "running" : "terminated"));
   return 1;
 }
+
+/* proc -- kill */
+int process_kill(lua_State *L)
+{
+  struct process *p = luaL_checkudata(L, 1, PROCESS_HANDLE);
+  if (p->status == -1) {
+    BOOL result;
+	if( TerminateProcess(p->hProcess, (UINT)0) ==0 )
+      return windows_pushlasterror(L);
+  }
+  lua_pushnumber(L, 1);
+  return 1;
+}
+

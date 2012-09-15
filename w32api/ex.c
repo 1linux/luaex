@@ -518,6 +518,7 @@ int luaopen_ex(lua_State *L)
     {"__tostring", process_tostring},
 #define ex_process_functions (ex_process_methods + 1)
     {"wait",       process_wait},
+    {"kill",       process_kill},
     {0,0} };
   /* diriter metatable */
   luaL_newmetatable(L, DIR_HANDLE);           /* . D */
