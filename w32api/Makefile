@@ -1,6 +1,6 @@
 include ../conf
-
-TARGET_ARCH= -mno-cygwin
+#deprecated in mingw:
+#TARGET_ARCH= -mno-cygwin
 CFLAGS= $(WARNINGS) $(DEFINES) $(INCLUDES)
 DEFINES= -DWIN32_LEAN_AND_MEAN -DNOGDI
 INCLUDES= $(LUAINC)
