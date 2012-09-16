@@ -457,6 +457,7 @@ int luaopen_ex(lua_State *L)
   const luaL_reg ex_process_methods[] = {
     {"__tostring", process_tostring},
 #define ex_process_functions (ex_process_methods + 1)
+    {"kill",       process_kill},
     {"wait",       process_wait},
     {0,0} };
   /* diriter metatable */

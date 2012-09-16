@@ -205,6 +205,10 @@ int process_tostring(lua_State *L)
 {
   struct process *p = luaL_checkudata(L, 1, PROCESS_HANDLE);
   char buf[40];
+  DWORD exitcode;
+  if( !GetExitCodeProcess(p->hProcess, &exitcode))
+    return windows_pushlasterror(L);
+  p->status = ( exitcode == STILL_ACTIVE ) ? -1 : 0;
   lua_pushlstring(L, buf,
     sprintf(buf, "process (%lu, %s)", (unsigned long)p->dwProcessId,
       p->status==-1 ? "running" : "terminated"));
@@ -216,7 +220,6 @@ int process_kill(lua_State *L)
 {
   struct process *p = luaL_checkudata(L, 1, PROCESS_HANDLE);
   if (p->status == -1) {
-    BOOL result;
 	if( TerminateProcess(p->hProcess, (UINT)0) ==0 )
       return windows_pushlasterror(L);
   }
